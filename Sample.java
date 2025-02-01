@@ -5,7 +5,7 @@
 
 
 // Your code here along with comments explaining your approach
-
+//BFS
 class Solution {
     public int[][] floodFill(int[][] image, int sr, int sc, int color) {
         Queue<int[]> q = new LinkedList<>();
@@ -42,5 +42,45 @@ class Solution {
             }
         }
         return image;
+    }
+}
+
+
+//DFS
+class Solution {
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        Queue<int[]> q = new LinkedList<>();
+        int[][] dirs = {{-1,0}, {1,0}, {0,-1}, {0,1}};
+        int oldcolor=0;
+        if (image.length == 0) {
+            return image;
+        }
+        int m=image.length;
+        int n= image[0].length;
+        if (image[sr][sc] == color) {
+            return image;
+        }
+        oldcolor = image[sr][sc];
+        for (int i=0;i<m;i++) {
+            for (int j=0;j<n;j++) {
+                if (image[sr][sc] != color ) {
+                    image[sr][sc] = color;
+                    dfs(sr, sc, image, dirs, m ,n, oldcolor, color);
+                    //q.add(new int[]{sr,sc});
+                }
+            }
+        }
+        return image;
+    }
+    private void dfs(int i, int j, int[][] image, int[][] dirs, int m, int n, int oldcolor, int color) {
+        for (int[] dir:dirs) {
+            int nr = i + dir[0];
+            int nc = j + dir[1];
+            if (nr < m && nr >=0 && nc< n && nc>=0 && image[nr][nc] == oldcolor) {
+                image[nr][nc] = color;
+                //q.add(new int[] {nr, nc});
+                dfs(nr, nc, image, dirs, m ,n, oldcolor, color);
+            }
+        }
     }
 }
